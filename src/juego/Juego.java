@@ -27,7 +27,8 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Plantas Invasoras - Grupo ... - v1", 800, 600);
 		
 		// Inicialzar lo que haga falta para el juego
-		imgfondo = Herramientas.cargarImagen("Red-Sports-Car-on-Road-Pixel-Art-Graphics-59568274-1.jpg") ;
+		imgfondo = Herramientas.cargarImagen("manzana.png") ;
+		layka = new Layka (10,10);
 		// ...
 
 		// Inicia el juego!
@@ -43,12 +44,27 @@ public class Juego extends InterfaceJuego
 	public void tick()
 	{
 		// Procesamiento de un instante de tiempo
-        entorno.dibujarImagen(imgfondo, 0, 0, 0.5);
+        //entorno.dibujarImagen(imgfondo, 0, 0, 0);
 
 		if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 			
 			proyectil = new Proyectil();
 		}
+		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+			layka.mover(3);
+		}
+		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+			layka.mover(2);
+		}
+
+		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+			layka.mover(1);
+		}
+
+		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
+			layka.mover(4);
+		}
+		layka.dibujarse(entorno);
 
 		// ...
 		
