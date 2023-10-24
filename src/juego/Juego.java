@@ -15,6 +15,9 @@ public class Juego extends InterfaceJuego
 	Auto[] autos;
 	Proyectil proyectil;
 	BolaFuego bolaFuego;
+	int numColumnas = 3; // Número de columnas
+	double separacionX = 200; // Espaciado en el eje X
+	double[] coordenadasY = new double[numColumnas];
 	
 	
 	// Variables y métodos propios de cada grupo
@@ -26,9 +29,13 @@ public class Juego extends InterfaceJuego
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Plantas Invasoras - Grupo ... - v1", 800, 600);
 		
-		// Inicialzar lo que haga falta para el juego
+		// Inicializar lo que haga falta para el juego
 		imgfondo = Herramientas.cargarImagen("manzana.png") ;
 		layka = new Layka (10,10);
+		// Generar las coordenadas en el eje Y
+		for (int i = 0; i < numColumnas; i++) {
+		    coordenadasY[i] = 160; // Valor común en el eje Y
+		}
 		// ...
 
 		// Inicia el juego!
@@ -44,25 +51,29 @@ public class Juego extends InterfaceJuego
 	public void tick()
 	{
 		// Procesamiento de un instante de tiempo
-        //entorno.dibujarImagen(imgfondo, 0, 0, 0);
+		for (int i = 0; i < numColumnas; i++) {
+		    double posX =  (1+i) * separacionX;
+		    double posY = coordenadasY[i];
+		    entorno.dibujarImagen(imgfondo, posX, posY, 0);
+		}
 
 		if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 			
 			proyectil = new Proyectil();
 		}
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			layka.mover(3);
+			layka.moverLaykaDer();
 		}
-		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-			layka.mover(2);
+		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+			layka.moverLaykaIzq();
 		}
 
-		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-			layka.mover(1);
+		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {	
+			layka.moverLaykaArr();
 		}
 
 		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
-			layka.mover(4);
+			layka.moverLaykaAba();
 		}
 		layka.dibujarse(entorno);
 
