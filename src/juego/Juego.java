@@ -18,6 +18,7 @@ public class Juego extends InterfaceJuego
 	int numColumnas = 3; // Número de columnas
 	double separacionX = 200; // Espaciado en el eje X
 	double[] coordenadasY = new double[numColumnas];
+	Color colorFondo = Color.GRAY;
 	
 	
 	// Variables y métodos propios de cada grupo
@@ -30,11 +31,13 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Plantas Invasoras - Grupo ... - v1", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
+		
+
 		imgfondo = Herramientas.cargarImagen("manzana.png") ;
 		layka = new Layka (10,10);
 		// Generar las coordenadas en el eje Y
 		for (int i = 0; i < numColumnas; i++) {
-		    coordenadasY[i] = 160; // Valor común en el eje Y
+		    coordenadasY[i] = 130; // Valor común en el eje Y
 		}
 		// ...
 
@@ -50,16 +53,15 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
+		entorno.dibujarRectangulo(entorno.ancho() / 2, entorno.alto() / 2, entorno.ancho(), entorno.alto(), 0, colorFondo);
 		// Procesamiento de un instante de tiempo
 		for (int i = 0; i < numColumnas; i++) {
-		    double posX =  (1+i) * separacionX;
-		    double posY = coordenadasY[i];
-		    entorno.dibujarImagen(imgfondo, posX, posY, 0);
-		}
-
-		if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-			
-			proyectil = new Proyectil();
+		    double posX = (i + 1) * separacionX;
+		    
+		    for (int j = 0; j < 3; j++) {
+		        double posY = coordenadasY[i] + (j * 170);
+		        entorno.dibujarImagen(imgfondo, posX, posY, 0);
+		    }
 		}
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			layka.moverLaykaDer();
@@ -75,6 +77,19 @@ public class Juego extends InterfaceJuego
 		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
 			layka.moverLaykaAba();
 		}
+	    if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+	        proyectil = new Proyectil(layka.getX(), layka.getY()); 
+	       
+	    }
+	    // Mueve el proyectil
+	    if (proyectil != null) {
+	        proyectil.dibujarProyectil(entorno);
+	        proyectil.moverProyectil();
+	        if (proyectil.getY() < 0 || proyectil.getX()<0) { // Si se va de la pantalla, se elimina
+	            proyectil = null;
+	        }
+	    }
+	    
 		layka.dibujarse(entorno);
 
 		// ...
