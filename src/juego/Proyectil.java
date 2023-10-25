@@ -37,8 +37,21 @@ public class Proyectil {
     	entorno.dibujarImagen(imgProyectil,x,y,angulo);
     }
 
-    public void moverProyectil() { 
-        y -= velocidad;
+    public void moverProyectil(int direccion) { 
+        switch(direccion) {
+        case 1:
+        	x += velocidad;
+        	break;
+        case 2:
+        	y -= velocidad;
+        	break;
+        case 3:
+        	y += velocidad;
+        	break;
+        case 4:
+        	x -= velocidad;
+        	break;
+        }
     }
     
 //getters    

@@ -24,9 +24,9 @@ public class Layka {
 			this.x = x;
 			this.y = y;
 			img1 = Herramientas.cargarImagen("laika.png");
-			this.proyectil = null; //al principio mi nave no tiene ningun proyectil
+			this.proyectil = null; //al principio no tiene ningun proyectil
 			
-			// Obtener el ancho y alto de la imagen de la nave para despues sacar un radio aproximado
+			// Obtener el ancho y alto de la imagen para despues sacar un radio aproximado
 		    int widthAst = img1.getWidth(null);
 		    int heightAst = img1.getHeight(null);
 		    this.radio = Math.max(widthAst, heightAst) / 2.0;
@@ -53,14 +53,14 @@ public class Layka {
 		    }
 		}
 		public void moverLaykaAba() {
-			   if (this.y + 10 < 600) { // va moviendo a la derecha sin salirse del borde
+			   if (this.y + 10 < 600) { // va moviendo abajo sin salirse del borde
 			       this.y += 3;
 			   } else { 
 			       this.y =600 - 10;
 		    }
 		}
 		public void moverLaykaArr() {
-			   if (this.y - 20 > 0) { // va moviendo a la derecha sin salirse del borde
+			   if (this.y - 20 > 0) { // va moviendo arriba sin salirse del borde
 			       this.y -= 3;
 			   } else { 
 			       this.y = 0 + 10;

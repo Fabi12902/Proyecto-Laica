@@ -18,6 +18,7 @@ public class Juego extends InterfaceJuego
 	int numColumnas = 3; // Número de columnas
 	double separacionX = 200; // Espaciado en el eje X
 	double[] coordenadasY = new double[numColumnas];
+	int dire;
 	Color colorFondo = Color.GRAY;
 	
 	
@@ -61,21 +62,46 @@ public class Juego extends InterfaceJuego
 		    for (int j = 0; j < 3; j++) {
 		        double posY = coordenadasY[i] + (j * 170);
 		        entorno.dibujarImagen(imgfondo, posX, posY, 0);
+		        
+		        // Realizar detección de colisiones con el jugador (o cualquier otro objeto)
+		        double jugadorX = layka.getX(); // coordenada X del jugador
+		        double jugadorY = layka.getY();// coordenada Y del jugador
+		        double jugadorAncho = layka.width;// ancho del jugador
+		        double jugadorAlto = layka.height;// alto del jugador
+
+		        double imagenX = posX;
+		        double imagenY = posY;
+		        double imagenAncho = imgfondo.getWidth(entorno);// ancho de la imagen
+		        double imagenAlto = imgfondo.getHeight(entorno);// alto de la imagen
+
+		        if (jugadorX < imagenX + imagenAncho &&
+		            jugadorX + jugadorAncho > imagenX &&
+		            jugadorY < imagenY + imagenAlto &&
+		            jugadorY + jugadorAlto > imagenY) {
+		        	
+		        	System.out.println("colisioooooooooooon");
+		            // Hay una colisión entre el jugador y la imagen en la posición (i, j)
+		            // Realiza las acciones necesarias en caso de colisión
+		        }
 		    }
 		}
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			layka.moverLaykaDer();
+			dire = 1;
 		}
 		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 			layka.moverLaykaIzq();
+			dire = 4;
 		}
 
 		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {	
 			layka.moverLaykaArr();
+			dire = 2;
 		}
 
 		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
 			layka.moverLaykaAba();
+			dire = 3;
 		}
 	    if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 	        proyectil = new Proyectil(layka.getX(), layka.getY()); 
@@ -84,7 +110,7 @@ public class Juego extends InterfaceJuego
 	    // Mueve el proyectil
 	    if (proyectil != null) {
 	        proyectil.dibujarProyectil(entorno);
-	        proyectil.moverProyectil();
+	        proyectil.moverProyectil(dire);
 	        if (proyectil.getY() < 0 || proyectil.getX()<0) { // Si se va de la pantalla, se elimina
 	            proyectil = null;
 	        }
