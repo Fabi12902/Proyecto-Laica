@@ -14,11 +14,12 @@ public class Juego extends InterfaceJuego
 	Planta[] plantas;
 	Auto[] autos;
 	Proyectil proyectil;
+	boolean proyectilenpantalla; 
 	BolaFuego bolaFuego;
 	int numColumnas = 3; // Número de columnas
 	double separacionX = 200; // Espaciado en el eje X
 	double[] coordenadasY = new double[numColumnas];
-	int dire;
+	int dire, direpr;
 	Color colorFondo = Color.GRAY;
 	
 	
@@ -67,21 +68,18 @@ public class Juego extends InterfaceJuego
 		        double jugadorX = layka.getX(); // coordenada X del jugador
 		        double jugadorY = layka.getY();// coordenada Y del jugador
 		        double jugadorAncho = layka.width;// ancho del jugador
-		        double jugadorAlto = layka.height;// alto del jugador
+		        double jugadorAlto = layka.height;// alto del jugadors
 
 		        double imagenX = posX;
 		        double imagenY = posY;
 		        double imagenAncho = imgfondo.getWidth(entorno);// ancho de la imagen
 		        double imagenAlto = imgfondo.getHeight(entorno);// alto de la imagen
+		        int distanciaColisionM = 80;
 
-		        if (jugadorX < imagenX + imagenAncho &&
-		            jugadorX + jugadorAncho > imagenX &&
-		            jugadorY < imagenY + imagenAlto &&
-		            jugadorY + jugadorAlto > imagenY) {
-		        	
-		        	System.out.println("colisioooooooooooon");
-		            // Hay una colisión entre el jugador y la imagen en la posición (i, j)
-		            // Realiza las acciones necesarias en caso de colisión
+		        if (colision(jugadorX, jugadorY, imagenX, imagenY, distanciaColisionM)) {
+		        	System.out.println("hay colision chango");
+		        	//layka.velocidad = 0.5;
+		        			        
 		        }
 		    }
 		}
@@ -105,12 +103,12 @@ public class Juego extends InterfaceJuego
 		}
 	    if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 	        proyectil = new Proyectil(layka.getX(), layka.getY()); 
-	       
+	        direpr = dire;
 	    }
 	    // Mueve el proyectil
 	    if (proyectil != null) {
 	        proyectil.dibujarProyectil(entorno);
-	        proyectil.moverProyectil(dire);
+	        proyectil.moverProyectil(direpr);
 	        if (proyectil.getY() < 0 || proyectil.getX()<0) { // Si se va de la pantalla, se elimina
 	            proyectil = null;
 	        }
@@ -121,6 +119,9 @@ public class Juego extends InterfaceJuego
 		// ...
 		
 
+	}
+	public boolean colision(double x1, double y1,double x2, double y2, double dist) {
+		return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)< dist*dist;
 	}
 
 	@SuppressWarnings("unused")

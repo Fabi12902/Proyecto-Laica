@@ -18,6 +18,7 @@ public class Layka {
 		int height;
 		int width;
 	    double radio;
+	    double velocidad = 3;
 		
 		public Layka(int x, int y) 
 		{
@@ -39,33 +40,40 @@ public class Layka {
 
 		 public void moverLaykaIzq() {
 			    if (this.x - 20 > 0) { // lo va moviendoa la izq siempre que no salga del borde
-			        this.x -= 4;
+			        this.x -= velocidad;
 			    } else { //si llega al borde rebota
-			        this.x = 0 + 20;
+			        velocidad -= 0 + 20;
 			    }
 			}
 
 		public void moverLaykaDer() {
 			   if (this.x + 10 < 800) { // va moviendo a la derecha sin salirse del borde
-			       this.x += 4;
+			       this.x += velocidad;
 			   } else { 
-			       this.x =800 - 10;
+			       velocidad =800 - 10;
 		    }
 		}
 		public void moverLaykaAba() {
 			   if (this.y + 10 < 600) { // va moviendo abajo sin salirse del borde
-			       this.y += 3;
+			       this.y += velocidad;
 			   } else { 
-			       this.y =600 - 10;
+			       velocidad =600 - 10;
 		    }
 		}
 		public void moverLaykaArr() {
 			   if (this.y - 20 > 0) { // va moviendo arriba sin salirse del borde
-			       this.y -= 3;
+			       this.y -= velocidad;
 			   } else { 
-			       this.y = 0 + 10;
+			       velocidad= 0 + 10;
 		    }
 		}
+		 public void dispararProyectil() {
+		        if (proyectil == null) {
+		            double xProyectil = this.x; //el x de origen del proyectil sera el x 
+		            double yProyectil = this.y; //el y de origen del proyectil sera el y 
+		            proyectil = new Proyectil(xProyectil, yProyectil);
+		        }
+		    }
 		
 		
 		public int getX(){

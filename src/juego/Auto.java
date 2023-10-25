@@ -14,7 +14,7 @@ public class Auto {
 	{
 		this.x = x;
 		this.y = y;
-		img1 = Herramientas.cargarImagen("nave.png");
+		img1 = Herramientas.cargarImagen("");
 	}
 
 
