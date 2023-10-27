@@ -10,6 +10,7 @@ public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
+	Manzana [] manzanitas;
 	Layka layka;
 	Planta[] plantas;
 	Auto[] autos;
@@ -34,12 +35,15 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		
-
 		imgfondo = Herramientas.cargarImagen("manzana.png") ;
 		layka = new Layka (10,10);
-		// Generar las coordenadas en el eje Y
-		for (int i = 0; i < numColumnas; i++) {
-		    coordenadasY[i] = 130; // Valor común en el eje Y
+		manzanitas = new Manzana[6];
+		for (int i = 0; i < manzanitas.length; i++) {
+			int columnas = 3;
+			int filas = 3;
+			int x = (i % columnas) * 230 + 165; // Distribuir horizontalmente.
+			int y = (i / filas) * 190 + 200;  // Distribuir verticalmente.
+			manzanitas[i] = new Manzana(x, y, 1);
 		}
 		// ...
 
@@ -57,49 +61,32 @@ public class Juego extends InterfaceJuego
 	{
 		entorno.dibujarRectangulo(entorno.ancho() / 2, entorno.alto() / 2, entorno.ancho(), entorno.alto(), 0, colorFondo);
 		// Procesamiento de un instante de tiempo
-		for (int i = 0; i < numColumnas; i++) {
-		    double posX = (i + 1) * separacionX;
-		    
-		    for (int j = 0; j < 3; j++) {
-		        double posY = coordenadasY[i] + (j * 170);
-		        entorno.dibujarImagen(imgfondo, posX, posY, 0);
-		        
-		        // Realizar detección de colisiones con el jugador (o cualquier otro objeto)
-		        double jugadorX = layka.getX(); // coordenada X del jugador
-		        double jugadorY = layka.getY();// coordenada Y del jugador
-		        double jugadorAncho = layka.width;// ancho del jugador
-		        double jugadorAlto = layka.height;// alto del jugadors
-
-		        double imagenX = posX;
-		        double imagenY = posY;
-		        double imagenAncho = imgfondo.getWidth(entorno);// ancho de la imagen
-		        double imagenAlto = imgfondo.getHeight(entorno);// alto de la imagen
-		        int distanciaColisionM = 80;
-
-		        if (colision(jugadorX, jugadorY, imagenX, imagenY, distanciaColisionM)) {
-		        	System.out.println("hay colision chango");
-		        	//layka.velocidad = 0.5;
-		        			        
-		        }
-		    }
-		}
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-			layka.moverLaykaDer();
+		if (entorno.estaPresionada(entorno.TECLA_DERECHA) && restriccionm(manzanitas,layka) != 1) {
+			layka.mover(1, this.entorno);
 			dire = 1;
-		}
-		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-			layka.moverLaykaIzq();
-			dire = 4;
-		}
+			
 
-		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {	
-			layka.moverLaykaArr();
+		}
+		if (entorno.estaPresionada(entorno.TECLA_ARRIBA) && restriccionm(manzanitas,layka) != 0) {
+			layka.mover(0, this.entorno);
 			dire = 2;
+
+		}	
+
+		if (entorno.estaPresionada(entorno.TECLA_ABAJO)&& restriccionm(manzanitas,layka) != 2) {
+			layka.mover(2, this.entorno);
+			dire = 3;
+
 		}
 
-		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
-			layka.moverLaykaAba();
-			dire = 3;
+		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)&& restriccionm(manzanitas,layka) != 3 ) {
+			layka.mover(3, this.entorno);
+			dire = 4;
+
+		}
+
+		for (int i=0; i < manzanitas.length;i++) {
+			manzanitas[i].dibujarse(entorno);
 		}
 	    if (entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 	        proyectil = new Proyectil(layka.getX(), layka.getY()); 
@@ -113,15 +100,39 @@ public class Juego extends InterfaceJuego
 	            proyectil = null;
 	        }
 	    }
-	    
 		layka.dibujarse(entorno);
 
 		// ...
 		
 
 	}
-	public boolean colision(double x1, double y1,double x2, double y2, double dist) {
-		return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)< dist*dist;
+	private int restriccionm(Manzana[] m, Layka a) {
+		for(int i=0; i < m.length;i++) {
+			if(restriccion(m[i],a) < 5){
+				 return restriccion(m[i],a);
+			}
+		}
+		return 5;
+	}
+
+	public int restriccion(Manzana m, Layka a) {
+		double zona1=m.x-m.ancho/2;
+		double zona2=m.y-m.alto/2;
+		double zona0=m.y+m.alto/2;
+		double zona3=m.x+m.ancho/2;
+		if(a.y > zona2 && a.y < zona0 && a.x > zona1-20 && a.x < zona3) {
+			return 1;
+		}
+		if(a.y > zona2 && a.y < zona0 && a.x > zona1 && a.x < zona3+20) {
+			return 3;
+		}
+		if(a.y > zona2-20 && a.y < zona0 && a.x > zona1 && a.x < zona3) {
+			return 2;
+		}
+		if(a.y > zona2 && a.y < zona0+20 && a.x > zona1 && a.x < zona3) {
+			return 0;
+		}
+		return 5;
 	}
 
 	@SuppressWarnings("unused")

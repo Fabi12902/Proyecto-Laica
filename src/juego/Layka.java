@@ -10,15 +10,15 @@ import entorno.Herramientas;
 public class Layka {
 	
 		// Variables de instancia
-		int x;
-		int y;
+		double x;
+		double y;
 		Image img1;
 		private Proyectil proyectil;
 		boolean disparando;
 		int height;
 		int width;
 	    double radio;
-	    double velocidad = 3;
+	    int dire;
 		
 		public Layka(int x, int y) 
 		{
@@ -28,9 +28,9 @@ public class Layka {
 			this.proyectil = null; //al principio no tiene ningun proyectil
 			
 			// Obtener el ancho y alto de la imagen para despues sacar un radio aproximado
-		    int widthAst = img1.getWidth(null);
-		    int heightAst = img1.getHeight(null);
-		    this.radio = Math.max(widthAst, heightAst) / 2.0;
+		    int width = img1.getWidth(null);
+		    int height = img1.getHeight(null);
+		    this.radio = Math.max(width, height) / 2.0;
 		}
 		
 		public void dibujarse(Entorno entorno)
@@ -38,34 +38,41 @@ public class Layka {
 			entorno.dibujarImagen(img1, this.x, this.y,0);
 		}
 
-		 public void moverLaykaIzq() {
-			    if (this.x - 20 > 0) { // lo va moviendoa la izq siempre que no salga del borde
-			        this.x -= velocidad;
-			    } else { //si llega al borde rebota
-			        velocidad -= 0 + 20;
-			    }
+		public void mover(int d, Entorno e)
+		{
+
+			this.dire=d;
+
+			if (dire ==0)
+			{    
+				y -= 3;	
+			}
+			if (dire ==1)
+			{
+				x += 3;	
+			}
+			if (dire ==2)
+			{
+				y += 3;	
+			}
+			if (dire ==3)
+			{
+				x -= 3;	
 			}
 
-		public void moverLaykaDer() {
-			   if (this.x + 10 < 800) { // va moviendo a la derecha sin salirse del borde
-			       this.x += velocidad;
-			   } else { 
-			       velocidad =800 - 10;
-		    }
-		}
-		public void moverLaykaAba() {
-			   if (this.y + 10 < 600) { // va moviendo abajo sin salirse del borde
-			       this.y += velocidad;
-			   } else { 
-			       velocidad =600 - 10;
-		    }
-		}
-		public void moverLaykaArr() {
-			   if (this.y - 20 > 0) { // va moviendo arriba sin salirse del borde
-			       this.y -= velocidad;
-			   } else { 
-			       velocidad= 0 + 10;
-		    }
+			if(x > e.ancho()) {
+				this.x -= 50;
+			}
+			if (x < -50.0) {
+				this.x+=50.0;	
+			}
+			if(y > e.alto()) {
+				this.y-=50.0;
+			}
+			if (y < -50.0) {
+				this.y+=50.0;	
+			}
+			
 		}
 		 public void dispararProyectil() {
 		        if (proyectil == null) {
@@ -76,19 +83,19 @@ public class Layka {
 		    }
 		
 		
-		public int getX(){
+		public double getX(){
 			return x;
 		}
 		
-		public int getY() {
+		public double getY() {
 				return y;
 			}
 			
-		public void setX(int x){
+		public void setX(double x){
 				this.x = x;
 			}
 			
-		public void setY(int y){
+		public void setY(double y){
 				this.y= y;
 			}
 }
