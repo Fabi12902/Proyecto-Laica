@@ -13,10 +13,10 @@ public class Layka {
 		double x;
 		double y;
 		Image img1;
+		int width;
+		int height;
 		private Proyectil proyectil;
 		boolean disparando;
-		int height;
-		int width;
 	    double radio;
 	    int dire;
 		
@@ -28,8 +28,8 @@ public class Layka {
 			this.proyectil = null; //al principio no tiene ningun proyectil
 			
 			// Obtener el ancho y alto de la imagen para despues sacar un radio aproximado
-		    int width = img1.getWidth(null);
-		    int height = img1.getHeight(null);
+		    this.width = img1.getWidth(null);
+		    this.height = img1.getHeight(null);
 		    this.radio = Math.max(width, height) / 2.0;
 		}
 		
@@ -60,17 +60,17 @@ public class Layka {
 				x -= 3;	
 			}
 
-			if(x > e.ancho()) {
-				this.x -= 50;
+			if (x+width/2 > e.ancho()) {
+				this.x-=3; 
 			}
-			if (x < -50.0) {
-				this.x+=50.0;	
+			if (x-width/2 < 0) {
+				this.x+=3; 
 			}
-			if(y > e.alto()) {
-				this.y-=50.0;
+			if (y-width/2 < 0) {
+				this.y+=3; 
 			}
-			if (y < -50.0) {
-				this.y+=50.0;	
+			if (y+width/2 > e.alto()) {
+				this.y-=3; 
 			}
 			
 		}
@@ -81,7 +81,10 @@ public class Layka {
 		            proyectil = new Proyectil(xProyectil, yProyectil);
 		        }
 		    }
-		
+		 
+		public double getRadio() {
+			return this.radio;
+		}
 		
 		public double getX(){
 			return x;

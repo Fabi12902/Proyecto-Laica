@@ -3,6 +3,7 @@ package juego;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import entorno.*;
 
@@ -12,8 +13,8 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	Manzana [] manzanitas;
 	Layka layka;
-	Planta[] plantas;
-	Auto[] autos;
+    ArrayList<Planta> plantaslist = new ArrayList<>();;
+	ArrayList<Auto> autos;
 	Proyectil proyectil;
 	boolean proyectilenpantalla; 
 	BolaFuego bolaFuego;
@@ -42,9 +43,16 @@ public class Juego extends InterfaceJuego
 			int columnas = 3;
 			int filas = 3;
 			int x = (i % columnas) * 230 + 165; // Distribuir horizontalmente.
-			int y = (i / filas) * 190 + 200;  // Distribuir verticalmente.
-			manzanitas[i] = new Manzana(x, y, 1);
+			int y = (i / filas) * 230 + 170;  // Distribuir verticalmente.
+			manzanitas[i] = new Manzana(x, y, 1); 
 		}
+		int maxPlantas = 4;
+	    if (plantaslist.size() < maxPlantas) {
+	        int x = 50 ;/* Calcula una posición x aleatoria o específica */;
+	        int y = 50;/* Calcula una posición y aleatoria o específica */;
+	        Planta planta = new Planta(x, y);
+	        plantaslist.add(planta);
+	    }
 		// ...
 
 		// Inicia el juego!
@@ -100,7 +108,14 @@ public class Juego extends InterfaceJuego
 	            proyectil = null;
 	        }
 	    }
+	    
 		layka.dibujarse(entorno);
+		System.out.println(layka.width);
+		
+	    for (Planta planta : plantaslist) {
+	        planta.move();
+	        planta.dibujarPlanta(entorno);
+	    }
 
 		// ...
 		
