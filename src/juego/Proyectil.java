@@ -25,8 +25,7 @@ public class Proyectil {
         //saco el radio aprox del proyectil para despues usarlo en el metodo de colision
         double ancho=imgProyectil.getWidth(null);
         double alto=imgProyectil.getHeight(null);
-        
-        
+               
         this.radio=Math.max(ancho, alto)/2;
         
         

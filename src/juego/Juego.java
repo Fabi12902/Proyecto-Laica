@@ -13,8 +13,8 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	Manzana [] manzanitas;
 	Layka layka;
-    ArrayList<Planta> plantaslist = new ArrayList<>();;
-	ArrayList<Auto> autos;
+    Planta [] plantaslist;
+	Auto [] autos;
 	Proyectil proyectil;
 	boolean proyectilenpantalla; 
 	BolaFuego bolaFuego;
@@ -46,12 +46,17 @@ public class Juego extends InterfaceJuego
 			int y = (i / filas) * 230 + 170;  // Distribuir verticalmente.
 			manzanitas[i] = new Manzana(x, y, 1); 
 		}
-		int maxPlantas = 4;
-	    if (plantaslist.size() < maxPlantas) {
+		plantaslist = new Planta[4];
+	    for (int i= 0; i < plantaslist.length; i++) {
 	        int x = 50 ;/* Calcula una posición x aleatoria o específica */;
 	        int y = 50;/* Calcula una posición y aleatoria o específica */;
-	        Planta planta = new Planta(x, y);
-	        plantaslist.add(planta);
+	        plantaslist[i] = new Planta(x, y);
+	    }
+		autos = new Auto[4];
+	    for (int i= 0; i < autos.length; i++) {
+	        int x = 50 ;/* Calcula una posición x aleatoria o específica */;
+	        int y = 250;/* Calcula una posición y aleatoria o específica */;
+	        autos[i] = new Auto(x, y);
 	    }
 		// ...
 
@@ -115,6 +120,10 @@ public class Juego extends InterfaceJuego
 	    for (Planta planta : plantaslist) {
 	        planta.move();
 	        planta.dibujarPlanta(entorno);
+	    }
+	    for (Auto auto : autos) {
+	        auto.move();
+	        auto.dibujarAuto(entorno);
 	    }
 
 		// ...

@@ -27,8 +27,8 @@ public class Planta {
         imgPlanta = Herramientas.cargarImagen("planta.png");
         
 		// Obtener el ancho y alto de la imagen para despues 
-	    int width = imgPlanta.getWidth(null);
-	    int height = imgPlanta.getHeight(null);
+	    this.width = imgPlanta.getWidth(null);
+	    this.height = imgPlanta.getHeight(null);
         
     }
     

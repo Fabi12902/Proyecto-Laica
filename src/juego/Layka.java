@@ -66,10 +66,10 @@ public class Layka {
 			if (x-width/2 < 0) {
 				this.x+=3; 
 			}
-			if (y-width/2 < 0) {
+			if (y-height/2 < 0) {
 				this.y+=3; 
 			}
-			if (y+width/2 > e.alto()) {
+			if (y+height/2 > e.alto()) {
 				this.y-=3; 
 			}
 			
@@ -91,7 +91,7 @@ public class Layka {
 		}
 		
 		public double getY() {
-				return y;
+			return y;
 			}
 			
 		public void setX(double x){
